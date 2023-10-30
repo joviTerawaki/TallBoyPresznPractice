@@ -5,7 +5,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 public final class Constants {
   public static class ControllerConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int XBOX_CONTROLLER_PORT = 0;
   }
 
   public static class SwerveConstants {
