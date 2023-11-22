@@ -72,7 +72,7 @@ public class SwerveSubsystem extends SubsystemBase {
   //returns the Rotation2d object 
   //a 2d coordinate represented by a point on the unit circle (the rotation of the robot)
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromDegrees(navx.getYaw());
+    return navx.getRotation2d();
   }
 
   /* * * ODOMETRY * * */

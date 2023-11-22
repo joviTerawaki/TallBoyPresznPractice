@@ -21,7 +21,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     swerveSubs.setDefaultCommand(
-      new S_DriveCommand(swerveSubs, () -> xbox.getLeftX(), () -> xbox.getLeftY(), () -> xbox.getRightX(), false)
+      new S_DriveCommand(swerveSubs, () -> xbox.getLeftY(), () -> -xbox.getLeftX(), () -> xbox.getRightX(), false)
       );
     // Configure the trigger bindings
     configureBindings();

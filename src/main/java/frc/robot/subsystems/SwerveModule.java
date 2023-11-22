@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,8 +25,9 @@ public class SwerveModule {
     private CANSparkMax rotationMotor; 
 
     //initialize encoders 
-    private WPI_CANCoder absoluteEncoder; 
+    private AbsoluteEncoder absoluteEncoder; 
     private RelativeEncoder driveEncoder; 
+    private int absEncPort; 
     //private RelativeEncoder rotationEncoder; 
 
     //init PID Controller for turning 
@@ -52,12 +55,11 @@ public class SwerveModule {
 
         //instantiate rotation motor and absolute encoder 
         rotationMotor = new CANSparkMax(rotationPort, MotorType.kBrushless);
-        absoluteEncoder = new WPI_CANCoder(absoluteEncoderPort);
+        absoluteEncoder = rotationMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
         //reset all motor configuration (as suggested from raid zero) (optional but safe)
         driveMotor.restoreFactoryDefaults();
         rotationMotor.restoreFactoryDefaults();
-        absoluteEncoder.configFactoryDefault();
 
         /* * * DRIVE * * */
         //configure driving motor 
@@ -70,15 +72,19 @@ public class SwerveModule {
         driveEncoder.setPositionConversionFactor(SwerveConstants.DRIVE_ENCODER_POSITION_CONVERSION);
 
         /* * * ROTATION * * */
+        absEncPort = absoluteEncoderPort;
         //configure rotation motor 
         rotationMotor.setInverted(rotationInverted);
         rotationMotor.setIdleMode(IdleMode.kBrake);
 
         //configure rotation absolute encoder 
-        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180); //abs enc is now +-180 
-        //absoluteEncoder.configMagnetOffset(encoderOffset); //implements encoder offset?? untested 
-        absoluteEncoder.configSensorDirection(SwerveConstants.ROTATION_ENCODER_DIRECTION); //False (default) means positive rotation occurs when magnet is spun counter-clockwise when observer is facing the LED side of CANCoder.
-        absoluteEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+        absoluteEncoder.setPositionConversionFactor(SwerveConstants.ROTATION_ENCODER_POSITION_CONVERSION); 
+        absoluteEncoder.setVelocityConversionFactor(SwerveConstants.ROTATION_ENCODER_VELOCITY_CONVERSION);
+        absoluteEncoder.setZeroOffset(encoderOffset);
+        // absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180); //abs enc is now +-180 
+        // absoluteEncoder.configMagnetOffset(encoderOffset); //implements encoder offset?? untested 
+        // absoluteEncoder.configSensorDirection(SwerveConstants.ROTATION_ENCODER_DIRECTION); //False (default) means positive rotation occurs when magnet is spun counter-clockwise when observer is facing the LED side of CANCoder.
+        // absoluteEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
 
         //configure rotation PID controller 
         rotationPID = new PIDController(
@@ -98,7 +104,7 @@ public class SwerveModule {
     }
 
     private double getAbsoluteEncoderDegrees() {
-        return absoluteEncoder.getAbsolutePosition() + (encOffset);
+        return Math.toDegrees(absoluteEncoder.getPosition());
     }
 
     //returns a new SwerveModuleState representing the current drive velocity and rotation motor angle 
@@ -127,7 +133,7 @@ public class SwerveModule {
     public void setAngle(SwerveModuleState desiredState) {
         SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, getState().angle);
 
-        double rotationOutput = rotationPID.calculate(getState().angle.getDegrees(), optimizedState.angle.getDegrees());
+        double rotationOutput = rotationPID.calculate( getAbsoluteEncoderDegrees()/*getState().angle.getDegrees()*/, optimizedState.angle.getDegrees());
 
         rotationMotor.set(rotationOutput); 
         driveMotor.set(0);
@@ -139,10 +145,10 @@ public class SwerveModule {
     }
 
     public void print() {
-        SmartDashboard.putNumber("S[" + absoluteEncoder.getDeviceID() + "] ABS ENC RAD", Math.toRadians(getAbsoluteEncoderDegrees()));
-        SmartDashboard.putNumber("S["+absoluteEncoder.getDeviceID()+"] DRIVE SPEED", driveVelocity());
-        SmartDashboard.putNumber("S["+absoluteEncoder.getDeviceID()+"] ROTATION SPEED", absoluteEncoder.getVelocity());
-        SmartDashboard.putString("S["+absoluteEncoder.getDeviceID()+"] DESIRED STATE", getState().toString());
+        SmartDashboard.putNumber("S[" + absEncPort + "] ABS ENC RAD", Math.toRadians(getAbsoluteEncoderDegrees()));
+        SmartDashboard.putNumber("S["+ absEncPort +"] DRIVE SPEED", driveVelocity());
+        SmartDashboard.putNumber("S["+ absEncPort +"] ROTATION SPEED", absoluteEncoder.getVelocity());
+        SmartDashboard.putString("S["+ absEncPort +"] DESIRED STATE", getState().toString());
 
     }
 }
