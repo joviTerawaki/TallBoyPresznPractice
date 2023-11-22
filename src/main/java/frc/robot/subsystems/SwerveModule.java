@@ -122,7 +122,7 @@ public class SwerveModule {
         //optimize state so the rotation motor doesnt have to spin as much 
         SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, getState().angle);
 
-        double rotationOutput = rotationPID.calculate(getState().angle.getDegrees(), optimizedState.angle.getDegrees());
+        double rotationOutput = rotationPID.calculate(getAbsoluteEncoderDegrees()/*getState().angle.getDegrees()*/, optimizedState.angle.getDegrees());
 
         rotationMotor.set(rotationOutput);
         driveMotor.set(optimizedState.speedMetersPerSecond / SwerveConstants.MAX_SPEED * SwerveConstants.VOLTAGE); 
