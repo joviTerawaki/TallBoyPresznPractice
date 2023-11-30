@@ -120,6 +120,7 @@ public class SwerveModule {
 
     public void setState(SwerveModuleState desiredState) {
         //optimize state so the rotation motor doesnt have to spin as much 
+        //maybe should use getAbsEnc instead of getState.angle()
         SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, getState().angle);
 
         double rotationOutput = rotationPID.calculate(getAbsoluteEncoderDegrees()/*getState().angle.getDegrees()*/, optimizedState.angle.getDegrees());

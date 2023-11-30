@@ -9,13 +9,13 @@ public final class Constants {
   }
 
   public static class SwerveConstants {
-    public static final boolean ROTATION_ENCODER_DIRECTION = false; 
+    // public static final boolean ROTATION_ENCODER_DIRECTION = false; 
 
     /* * * MEASUREMENTS * * */
     //FIXME input tallboy measurements/info (got this info from alessandras old code)
     public static final double WHEEL_DIAMETER = 3 * 2.5 / 100;
-    public static final double TRACK_WIDTH = 0.435;
-    public static final double WHEEL_BASE = 0.435;
+    public static final double TRACK_WIDTH = 0.4318;
+    public static final double WHEEL_BASE = 0.4318;
     
     public static final double DRIVE_GEAR_RATIO = 4.71 / 1;
     public static final double ROTATION_GEAR_RATIO = 150 / 7;
@@ -29,13 +29,21 @@ public final class Constants {
     // middle of roobt is (0,0)
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
       // front left
-      new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
-      // back left
       new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
-      // front right
-      new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2),
-      // back right
-      new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)
+      // new Translation2d(WHEEL_BASE/2, WHEEL_BASE/2), 
+
+      // // back left
+      new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
+      // new Translation2d(WHEEL_BASE/2, -WHEEL_BASE/2),
+
+      // // front right
+      new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2),
+      // new Translation2d(-WHEEL_BASE/2, WHEEL_BASE/2),
+
+      // // back right
+      new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2)
+      // new Translation2d(-WHEEL_BASE/2, -WHEEL_BASE/2)
+
     );
 
     //FIXME ports and offsets
@@ -44,25 +52,25 @@ public final class Constants {
     public static final int FL_DRIVE_PORT = 1;
     public static final int FL_ROTATION_PORT = 5;
     public static final int FL_ABSOLUTE_ENCODER_PORT = 9;
-    public static final double FL_OFFSET = -0.0;
+    public static final double FL_OFFSET = 3.451;//3.35 + 0.085;
 
     /* * * BACK LEFT * * */
     public static final int BL_DRIVE_PORT = 2;
     public static final int BL_ROTATION_PORT = 6;
     public static final int BL_ABSOLUTE_ENCODER_PORT = 10;
-    public static final double BL_OFFSET = -0.0;
+    public static final double BL_OFFSET = 1.385;//1.38;
 
     /* * * BACK RIGHT * * */
     public static final int BR_DRIVE_PORT = 3;
     public static final int BR_ROTATION_PORT = 7;
     public static final int BR_ABSOLUTE_ENCODER_PORT = 11;
-    public static final double BR_OFFSET = -0.0;
+    public static final double BR_OFFSET = 1.428;//1.46;
 
     /* * * FRONT RIGHT * * */
     public static final int FR_DRIVE_PORT = 4;
     public static final int FR_ROTATION_PORT = 8;
     public static final int FR_ABSOLUTE_ENCODER_PORT = 12;
-    public static final double FR_OFFSET = -0.0;
+    public static final double FR_OFFSET = 4.524;//4.59 - 0.05;
     
     /* * * CONVERSIONS FOR ENCODERS * * */
     //FIXME read raid zero config and figure out conversions 
@@ -79,9 +87,9 @@ public final class Constants {
     // 8192 * steer gear ratio  => counts per wheel revolution
 
     /* * * PID VALUES * * */
-    public static final double KP_TURNING = 0.0005;
-    public static final double KI_TURNING = 0.0;
-    public static final double KD_TURNING = 0.0;
+    public static final double KP_TURNING = 0.0035;
+    public static final double KI_TURNING = 0.0000;
+    public static final double KD_TURNING = 0.00008;
 
     //FIXME speeds 
     /* * * MAX * * */

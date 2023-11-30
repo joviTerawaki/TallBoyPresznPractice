@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveSubsystem extends SubsystemBase {
 
@@ -26,7 +27,7 @@ public class SwerveSubsystem extends SubsystemBase {
       SwerveConstants.FL_ROTATION_PORT,
       SwerveConstants.FL_ABSOLUTE_ENCODER_PORT,
       SwerveConstants.FL_OFFSET,
-      true, 
+      false, 
       true
     ); //ba was here hahaa !!!
 
@@ -35,7 +36,7 @@ public class SwerveSubsystem extends SubsystemBase {
       SwerveConstants.BL_ROTATION_PORT, 
       SwerveConstants.BL_ABSOLUTE_ENCODER_PORT, 
       SwerveConstants.BL_OFFSET, 
-      true, 
+      false, 
       true
     );
 
@@ -44,7 +45,7 @@ public class SwerveSubsystem extends SubsystemBase {
       SwerveConstants.FR_ROTATION_PORT, 
       SwerveConstants.FR_ABSOLUTE_ENCODER_PORT, 
       SwerveConstants.FR_OFFSET, 
-      true, 
+      false, 
       true
     );
 
@@ -53,7 +54,7 @@ public class SwerveSubsystem extends SubsystemBase {
       SwerveConstants.BR_ROTATION_PORT, 
       SwerveConstants.BR_ABSOLUTE_ENCODER_PORT, 
       SwerveConstants.BR_OFFSET, 
-      true, 
+      false, 
       true
     );
 
@@ -73,6 +74,10 @@ public class SwerveSubsystem extends SubsystemBase {
   //a 2d coordinate represented by a point on the unit circle (the rotation of the robot)
   public Rotation2d getRotation2d() {
     return navx.getRotation2d();
+  }
+
+  public void resetNavx() {
+    navx.reset();
   }
 
   /* * * ODOMETRY * * */
@@ -166,5 +171,6 @@ public class SwerveSubsystem extends SubsystemBase {
     backLeft.print();
     frontRight.print();
     backRight.print();
+    SmartDashboard.putNumber("NAVX", navx.getYaw());
   }
 }

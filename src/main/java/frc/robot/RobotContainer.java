@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.S_DriveCommand;
 import frc.robot.subsystems.SwerveSubsystem;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
   /* * * INSTANTIATION OF OBJECTS * * */
@@ -21,7 +22,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     swerveSubs.setDefaultCommand(
-      new S_DriveCommand(swerveSubs, () -> xbox.getLeftY(), () -> -xbox.getLeftX(), () -> xbox.getRightX(), false)
+      new S_DriveCommand(swerveSubs, () -> xbox.getLeftY(), () -> -xbox.getLeftX(), () -> xbox.getRightX(), true)
       );
     // Configure the trigger bindings
     configureBindings();
@@ -29,7 +30,7 @@ public class RobotContainer {
 
   //configure bindings 
   private void configureBindings() {
-
+    new JoystickButton(xbox, 1).onTrue(new InstantCommand(() -> swerveSubs.resetNavx()));
   }
 
   public Command getAutonomousCommand() {
