@@ -29,20 +29,20 @@ public final class Constants {
     // middle of roobt is (0,0)
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
       // front left
-      new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
-      // new Translation2d(WHEEL_BASE/2, WHEEL_BASE/2), 
+      // new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
+      new Translation2d(WHEEL_BASE/2, -WHEEL_BASE/2), 
 
       // // back left
-      new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
-      // new Translation2d(WHEEL_BASE/2, -WHEEL_BASE/2),
+      // new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
+      new Translation2d(-WHEEL_BASE/2, -WHEEL_BASE/2),
 
       // // front right
-      new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2),
-      // new Translation2d(-WHEEL_BASE/2, WHEEL_BASE/2),
+      // new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2),
+      new Translation2d(WHEEL_BASE/2, WHEEL_BASE/2),
 
       // // back right
-      new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2)
-      // new Translation2d(-WHEEL_BASE/2, -WHEEL_BASE/2)
+      // new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2)
+      new Translation2d(-WHEEL_BASE/2, WHEEL_BASE/2)
 
     );
 
@@ -52,25 +52,25 @@ public final class Constants {
     public static final int FL_DRIVE_PORT = 1;
     public static final int FL_ROTATION_PORT = 5;
     public static final int FL_ABSOLUTE_ENCODER_PORT = 9;
-    public static final double FL_OFFSET = 3.451;//3.35 + 0.085;
+    public static final double FL_OFFSET = 3.481;
 
     /* * * BACK LEFT * * */
     public static final int BL_DRIVE_PORT = 2;
     public static final int BL_ROTATION_PORT = 6;
     public static final int BL_ABSOLUTE_ENCODER_PORT = 10;
-    public static final double BL_OFFSET = 1.385;//1.38;
+    public static final double BL_OFFSET = 1.219 + 0.1;
 
     /* * * BACK RIGHT * * */
     public static final int BR_DRIVE_PORT = 3;
     public static final int BR_ROTATION_PORT = 7;
     public static final int BR_ABSOLUTE_ENCODER_PORT = 11;
-    public static final double BR_OFFSET = 1.428;//1.46;
+    public static final double BR_OFFSET = 1.458;
 
     /* * * FRONT RIGHT * * */
     public static final int FR_DRIVE_PORT = 4;
     public static final int FR_ROTATION_PORT = 8;
     public static final int FR_ABSOLUTE_ENCODER_PORT = 12;
-    public static final double FR_OFFSET = 4.524;//4.59 - 0.05;
+    public static final double FR_OFFSET = 4.536;
     
     /* * * CONVERSIONS FOR ENCODERS * * */
     //FIXME read raid zero config and figure out conversions 

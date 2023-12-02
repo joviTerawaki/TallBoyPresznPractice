@@ -4,6 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -73,6 +74,7 @@ public class SwerveSubsystem extends SubsystemBase {
   //returns the Rotation2d object 
   //a 2d coordinate represented by a point on the unit circle (the rotation of the robot)
   public Rotation2d getRotation2d() {
+    // return navx.getRotation2d();
     return navx.getRotation2d();
   }
 
