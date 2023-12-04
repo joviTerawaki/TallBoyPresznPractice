@@ -46,31 +46,57 @@ public final class Constants {
 
     );
 
-    //FIXME ports and offsets
-    //RADIANS 
+    //OFFSETS IN RADIANS 
+
     /* * * FRONT LEFT * * */
-    public static final int FL_DRIVE_PORT = 1;
-    public static final int FL_ROTATION_PORT = 5;
-    public static final int FL_ABSOLUTE_ENCODER_PORT = 9;
-    public static final double FL_OFFSET = 3.481;
+    public static class FrontLeft {
+      public static final int DRIVE_PORT = 1;
+      public static final int ROTATION_PORT = 5;
+      public static final int ABSOLUTE_ENCODER_PORT = 9;
+      public static final double OFFSET = 3.481;
+      public static final boolean DRIVE_INVERTED = false; 
+      public static final boolean ROTATION_INVERTED = true; 
+
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+    }
 
     /* * * BACK LEFT * * */
-    public static final int BL_DRIVE_PORT = 2;
-    public static final int BL_ROTATION_PORT = 6;
-    public static final int BL_ABSOLUTE_ENCODER_PORT = 10;
-    public static final double BL_OFFSET = 1.219 + 0.1;
+    public static class BackLeft {
+      public static final int DRIVE_PORT = 2;
+      public static final int ROTATION_PORT = 6;
+      public static final int ABSOLUTE_ENCODER_PORT = 10;
+      public static final double OFFSET = 1.219 + 0.1; 
+      public static final boolean DRIVE_INVERTED = false; 
+      public static final boolean ROTATION_INVERTED = true; 
 
-    /* * * BACK RIGHT * * */
-    public static final int BR_DRIVE_PORT = 3;
-    public static final int BR_ROTATION_PORT = 7;
-    public static final int BR_ABSOLUTE_ENCODER_PORT = 11;
-    public static final double BR_OFFSET = 1.458;
+
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+
+    }
 
     /* * * FRONT RIGHT * * */
-    public static final int FR_DRIVE_PORT = 4;
-    public static final int FR_ROTATION_PORT = 8;
-    public static final int FR_ABSOLUTE_ENCODER_PORT = 12;
-    public static final double FR_OFFSET = 4.536;
+    public static class FrontRight{
+    public static final int DRIVE_PORT = 4;
+    public static final int ROTATION_PORT = 8;
+    public static final int ABSOLUTE_ENCODER_PORT = 12;
+    public static final double OFFSET = 4.536;
+    public static final boolean DRIVE_INVERTED = false; 
+    public static final boolean ROTATION_INVERTED = true; 
+
+    public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+    }
+
+    /* * * BACK RIGHT * * */
+    public static final class BackRight {
+      public static final int DRIVE_PORT = 3;
+      public static final int ROTATION_PORT = 7;
+      public static final int ABSOLUTE_ENCODER_PORT = 11;
+      public static final double OFFSET = 1.458;
+      public static final boolean DRIVE_INVERTED = false; 
+      public static final boolean ROTATION_INVERTED = true; 
+
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+    }
     
     /* * * CONVERSIONS FOR ENCODERS * * */
     //FIXME read raid zero config and figure out conversions 

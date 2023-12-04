@@ -31,7 +31,7 @@ public class S_DriveCommand extends CommandBase {
   @Override
   public void execute() {
     SwerveModuleState[] states; 
-    /* * * ALTERING VALUES * *   */
+    /* * * ALTERING VALUES * * */
     //Joystick values -> double 
     double xSpeed = xSupplier.getAsDouble(); 
     double ySpeed = ySupplier.getAsDouble(); 
@@ -47,18 +47,34 @@ public class S_DriveCommand extends CommandBase {
     ySpeed = modifyAxis(ySpeed); 
     zSpeed = modifyAxis(zSpeed); 
 
-    /* * * SETTING SWERVE STATES * * */ 
-    if (fieldOriented) {
-      states = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-        ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, swerveSubs.getRotation2d())
-      );
-    } else {
-      states = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-        new ChassisSpeeds(xSpeed, ySpeed, zSpeed)
-      );
+    /* * * WAIALUA DESIRED ANGLE MODIFICATIONS * * */
+    //UNTESTED BE CAREFUL
+    if (zSpeed != 0) {
+      swerveSubs.desiredAngle = swerveSubs.getYaw360();
     }
 
-    swerveSubs.setModuleStates(states);
+    swerveSubs.desiredAngle += zSpeed; 
+    swerveSubs.desiredAngle = (swerveSubs.desiredAngle + 360) % 360; //makes the desired angle positive and b/w 0 - 360
+    double angleToDesired = -wrap(swerveSubs.getYaw360(), swerveSubs.desiredAngle); 
+    double rotationSpeed = angleToDesired / 90; //idk why they divide by 90??? 
+    //apply range -1 to 1
+    if (rotationSpeed > 1) rotationSpeed = 1;
+    if (rotationSpeed < -1) rotationSpeed = -1;
+
+    /* * * SETTING SWERVE STATES * * */ 
+  //   if (fieldOriented) {
+  //     states = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+  //       ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, swerveSubs.getRotation2d())
+  //     );
+  //   } else {
+  //     states = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+  //       new ChassisSpeeds(xSpeed, ySpeed, zSpeed)
+  //     );
+  //   }
+
+  //   swerveSubs.setModuleStates(states);
+
+  swerveSubs.drive(xSpeed, ySpeed, rotationSpeed, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -79,9 +95,22 @@ public class S_DriveCommand extends CommandBase {
   }
   private static double modifyAxis(double num) {
     // Square the axis
-    num = Math.copySign(num * num, num);
+    num = num * num * Math.signum(num);
 
     return num;
+  }
+
+  //waialua wrap method from Conversions.java 
+  public static double wrap(double angle1, double angle2) {
+    double difference = angle1 - angle2;
+    if (difference > 180) {
+        difference -= 360;
+        //difference = -difference;
+    } else if (difference < -180) {
+        difference += 360;
+        //difference = -difference;
+    }
+    return difference;
   }
 
 
