@@ -25,7 +25,9 @@ public class S_DriveCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    swerveSubs.resetNavx();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -49,15 +51,15 @@ public class S_DriveCommand extends CommandBase {
 
     /* * * WAIALUA DESIRED ANGLE MODIFICATIONS * * */
     //UNTESTED BE CAREFUL
-    if (zSpeed != 0) {
-      swerveSubs.desiredAngle = swerveSubs.getYaw360();
+    if (zSpeed != 0) { //if rotation js is being moved 
+      swerveSubs.desiredAngle = swerveSubs.getRotation2d().getDegrees(); //used to be .getYaw360();
     }
-
+   
     swerveSubs.desiredAngle += zSpeed; 
     swerveSubs.desiredAngle = (swerveSubs.desiredAngle + 360) % 360; //makes the desired angle positive and b/w 0 - 360
-    double angleToDesired = -wrap(swerveSubs.getYaw360(), swerveSubs.desiredAngle); 
+    double angleToDesired = -wrap(swerveSubs.getRotation2d().getDegrees(), swerveSubs.desiredAngle); 
     double rotationSpeed = angleToDesired / 90; //idk why they divide by 90??? 
-    //apply range -1 to 1
+    // apply range -1 to 1
     if (rotationSpeed > 1) rotationSpeed = 1;
     if (rotationSpeed < -1) rotationSpeed = -1;
 

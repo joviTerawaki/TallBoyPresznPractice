@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SwerveSubsystem extends SubsystemBase {
 
   //initialize SwerveModules 
-  private SwerveModule frontLeft, backLeft, frontRight, backRight; 
+  // private SwerveModule frontLeft, backLeft, frontRight, backRight; 
   private SwerveModule[] swerveModules; 
 
   //odometry 
@@ -74,8 +74,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     //instantiate navx 
     navx = new AHRS();
-    navx.zeroYaw();
+    navx.reset();
 
+    // SmartDashboard.putNumber("working??", navx.getRawGyroZ());
+    // SmartDashboard.putNumber("init yaww", navx.getYaw());
     //instantiate odometer 
     odometer = new SwerveDriveOdometry(
       SwerveConstants.DRIVE_KINEMATICS, 
@@ -110,7 +112,7 @@ public class SwerveSubsystem extends SubsystemBase {
   //returns the Rotation2d object 
   //a 2d coordinate represented by a point on the unit circle (the rotation of the robot)
   public Rotation2d getRotation2d() {
-    return navx.getRotation2d();
+    return navx.getRotation2d().times(-1);
   }
 
   public void resetNavx() {
@@ -137,6 +139,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void setDesiredAngle(double desiredAngle) {
     this.desiredAngle = desiredAngle; 
+    SmartDashboard.putNumber("DESIRED", desiredAngle);
+
   }
 
   //SET STATES 
@@ -157,68 +161,109 @@ public class SwerveSubsystem extends SubsystemBase {
   //returns the states of the swerve modules in an array 
   //getState uses drive velocity and module rotation 
   public SwerveModuleState[] getModuleStates() {
-    return new SwerveModuleState[] {
-      frontLeft.getState(), 
-      backLeft.getState(), 
-      frontRight.getState(), 
-      backRight.getState()
-    };
+    SwerveModuleState[] states = new SwerveModuleState[4]; 
+
+    for (SwerveModule swerveMod : swerveModules) {
+      states[swerveMod.moduleNumber] = swerveMod.getState();
+    }
+
+    return states; 
+    // return new SwerveModuleState[] {
+      // frontLeft.getState(), 
+      // backLeft.getState(), 
+      // frontRight.getState(), 
+      // backRight.getState()
+    // };
   }
 
   //GET POSITIONS
   //returns the positions of the swerve modules in an array 
   //getPosition uses drive enc and module rotation 
   public SwerveModulePosition[] getModulePositions() {
-    return new SwerveModulePosition[] {
-      frontLeft.getPosition(), 
-      backLeft.getPosition(), 
-      frontRight.getPosition(), 
-      backRight.getPosition()
-    };
+    SwerveModulePosition[] positions = new SwerveModulePosition[4];
+ 
+    for (SwerveModule swerveMod : swerveModules) {
+      positions[swerveMod.moduleNumber] = swerveMod.getPosition();
+    }
+
+    return positions; 
+    // return new SwerveModulePosition[] {
+    //   frontLeft.getPosition(), 
+    //   backLeft.getPosition(), 
+    //   frontRight.getPosition(), 
+    //   backRight.getPosition()
+    // };
   }
 
   //LOCK 
   public void lock() {
-    SwerveModuleState fl = new SwerveModuleState(0, new Rotation2d(Math.toRadians(45)));
-    SwerveModuleState bl = new SwerveModuleState(0, new Rotation2d(Math.toRadians(-45)));
-    SwerveModuleState fr = new SwerveModuleState(0, new Rotation2d(Math.toRadians(45)));
-    SwerveModuleState br = new SwerveModuleState(0, new Rotation2d(Math.toRadians(-45)));
+    SwerveModuleState[] states = new SwerveModuleState[4];
 
-    frontLeft.setAngle(fl);
-    backLeft.setAngle(bl);
-    frontRight.setAngle(fr);
-    backRight.setAngle(br);
+    states[0] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(45)));
+    states[1] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(-45)));
+    states[2] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(45)));
+    states[3] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(-45)));
+
+    for (SwerveModule swerveMod : swerveModules) {
+      swerveMod.setAngle(states[swerveMod.moduleNumber]);
+    }
+
+    // frontLeft.setAngle(fl);
+    // backLeft.setAngle(bl);
+    // frontRight.setAngle(fr);
+    // backRight.setAngle(br);
   }
 
   //STRAIGHTEN THE WHEELS 
   public void straightenWheels() { //set all wheels to 0 degrees 
-    SwerveModuleState fl = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
-    SwerveModuleState bl = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
-    SwerveModuleState fr = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
-    SwerveModuleState br = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
+    SwerveModuleState[] states = new SwerveModuleState[4];
 
-    frontLeft.setAngle(fl);
-    backLeft.setAngle(bl);
-    frontRight.setAngle(fr);
-    backRight.setAngle(br);
+    states[0] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
+    states[1] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
+    states[2] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
+    states[3] = new SwerveModuleState(0, new Rotation2d(Math.toRadians(0)));
+
+    for (SwerveModule swerveMod : swerveModules) {
+      swerveMod.setAngle(states[swerveMod.moduleNumber]);
+    }
+
+    // frontLeft.setAngle(fl);
+    // backLeft.setAngle(bl);
+    // frontRight.setAngle(fr);
+    // backRight.setAngle(br);
   }
 
   //STOP 
   public void stopModules() {
-    frontLeft.stop();
-    backLeft.stop();
-    backRight.stop();
-    frontRight.stop();
+
+    for (SwerveModule swerveMod : swerveModules) {
+      swerveMod.stop();
+    }
+    // frontLeft.stop();
+    // backLeft.stop();
+    // backRight.stop();
+    // frontRight.stop();
 }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     odometer.update(getRotation2d(), getModulePositions());
-    frontLeft.print();
-    backLeft.print();
-    frontRight.print();
-    backRight.print();
+    // for (SwerveModule swerveMod : swerveModules) {
+    //   swerveMod.print();
+    // }
+    swerveModules[0].print();
+    swerveModules[1].print();
+    swerveModules[2].print();
+    swerveModules[3].print();
+
+    // frontLeft.print();
+    // backLeft.print();
+    // frontRight.print();
+    // backRight.print();
     SmartDashboard.putNumber("NAVX", navx.getYaw());
+    SmartDashboard.putNumber("desired ang", desiredAngle);
+    
+
   }
 }

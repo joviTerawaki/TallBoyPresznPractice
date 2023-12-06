@@ -31,6 +31,8 @@ public class RobotContainer {
   //configure bindings 
   private void configureBindings() {
     new JoystickButton(xbox, 1).onTrue(new InstantCommand(() -> swerveSubs.resetNavx()));
+    new JoystickButton(xbox, 3).onTrue(new InstantCommand(() -> swerveSubs.setDesiredAngle(180)));
+    // new JoystickButton(xbox, 3).(new InstantCommand(() -> swerveSubs.setDesiredAngle(swerveSubs.getRotation2d().getDegrees())));
   }
 
   public Command getAutonomousCommand() {

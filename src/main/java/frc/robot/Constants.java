@@ -57,7 +57,7 @@ public final class Constants {
       public static final boolean DRIVE_INVERTED = false; 
       public static final boolean ROTATION_INVERTED = true; 
 
-      public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(DRIVE_PORT, ROTATION_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
     }
 
     /* * * BACK LEFT * * */
@@ -70,7 +70,7 @@ public final class Constants {
       public static final boolean ROTATION_INVERTED = true; 
 
 
-      public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(DRIVE_PORT, ROTATION_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
 
     }
 
@@ -83,7 +83,7 @@ public final class Constants {
     public static final boolean DRIVE_INVERTED = false; 
     public static final boolean ROTATION_INVERTED = true; 
 
-    public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+    public static final SwerveModuleConstants constants = new SwerveModuleConstants(DRIVE_PORT, ROTATION_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
     }
 
     /* * * BACK RIGHT * * */
@@ -95,7 +95,7 @@ public final class Constants {
       public static final boolean DRIVE_INVERTED = false; 
       public static final boolean ROTATION_INVERTED = true; 
 
-      public static final SwerveModuleConstants constants = new SwerveModuleConstants(ROTATION_PORT, DRIVE_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(DRIVE_PORT, ROTATION_PORT, ABSOLUTE_ENCODER_PORT, OFFSET, DRIVE_INVERTED, ROTATION_INVERTED);
     }
     
     /* * * CONVERSIONS FOR ENCODERS * * */
