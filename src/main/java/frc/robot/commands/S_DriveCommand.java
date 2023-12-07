@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -20,6 +21,7 @@ public class S_DriveCommand extends CommandBase {
     this.ySupplier = ySupplier; 
     this.zSupplier = zSupplier; 
     this.fieldOriented = fieldOriented; 
+
     addRequirements(swerveSubs);
   }
 
@@ -32,6 +34,7 @@ public class S_DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putString("DONE", "not done");
     SwerveModuleState[] states; 
     /* * * ALTERING VALUES * * */
     //Joystick values -> double 
@@ -49,19 +52,19 @@ public class S_DriveCommand extends CommandBase {
     ySpeed = modifyAxis(ySpeed); 
     zSpeed = modifyAxis(zSpeed); 
 
-    /* * * WAIALUA DESIRED ANGLE MODIFICATIONS * * */
-    //UNTESTED BE CAREFUL
-    if (zSpeed != 0) { //if rotation js is being moved 
-      swerveSubs.desiredAngle = swerveSubs.getRotation2d().getDegrees(); //used to be .getYaw360();
-    }
+    // /* * * WAIALUA DESIRED ANGLE MODIFICATIONS * * */
+    // //UNTESTED BE CAREFUL
+    // if (zSpeed != 0) { //if rotation js is being moved 
+    //   swerveSubs.desiredAngle = swerveSubs.getRotation2d().getDegrees(); //used to be .getYaw360();
+    // }
    
-    swerveSubs.desiredAngle += zSpeed; 
-    swerveSubs.desiredAngle = (swerveSubs.desiredAngle + 360) % 360; //makes the desired angle positive and b/w 0 - 360
-    double angleToDesired = -wrap(swerveSubs.getRotation2d().getDegrees(), swerveSubs.desiredAngle); 
-    double rotationSpeed = angleToDesired / 90; //idk why they divide by 90??? 
-    // apply range -1 to 1
-    if (rotationSpeed > 1) rotationSpeed = 1;
-    if (rotationSpeed < -1) rotationSpeed = -1;
+    // swerveSubs.desiredAngle += zSpeed; 
+    // swerveSubs.desiredAngle = (swerveSubs.desiredAngle + 360) % 360; //makes the desired angle positive and b/w 0 - 360
+    // double angleToDesired = -wrap(swerveSubs.getRotation2d().getDegrees(), swerveSubs.desiredAngle); 
+    // double rotationSpeed = angleToDesired / 90; //idk why they divide by 90??? 
+    // // apply range -1 to 1
+    // if (rotationSpeed > 1) rotationSpeed = 1;
+    // if (rotationSpeed < -1) rotationSpeed = -1;
 
     /* * * SETTING SWERVE STATES * * */ 
   //   if (fieldOriented) {
@@ -76,7 +79,7 @@ public class S_DriveCommand extends CommandBase {
 
   //   swerveSubs.setModuleStates(states);
 
-  swerveSubs.drive(xSpeed, ySpeed, rotationSpeed, true);
+  swerveSubs.drive(xSpeed, ySpeed, zSpeed, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -88,6 +91,7 @@ public class S_DriveCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    SmartDashboard.putString("DONE", "DONE");
     return false;
   }
 
@@ -95,6 +99,7 @@ public class S_DriveCommand extends CommandBase {
   public double deadzone(double num){
     return Math.abs(num) > 0.1 ? num : 0;
   }
+
   private static double modifyAxis(double num) {
     // Square the axis
     num = num * num * Math.signum(num);

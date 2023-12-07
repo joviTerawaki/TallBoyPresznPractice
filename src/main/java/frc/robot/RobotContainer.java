@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.S_DriveCommand;
+import frc.robot.commands.S_QuickTurnCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -31,7 +32,7 @@ public class RobotContainer {
   //configure bindings 
   private void configureBindings() {
     new JoystickButton(xbox, 1).onTrue(new InstantCommand(() -> swerveSubs.resetNavx()));
-    new JoystickButton(xbox, 3).onTrue(new InstantCommand(() -> swerveSubs.setDesiredAngle(180)));
+    new JoystickButton(xbox, 3).whileTrue(new S_QuickTurnCommand(swerveSubs, () -> xbox.getLeftY(), () -> -xbox.getLeftX(), () -> -xbox.getRightX(), 180));
     // new JoystickButton(xbox, 3).(new InstantCommand(() -> swerveSubs.setDesiredAngle(swerveSubs.getRotation2d().getDegrees())));
   }
 
