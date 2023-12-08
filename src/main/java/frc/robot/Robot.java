@@ -7,6 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.S_ResetNavx;
+import frc.robot.subsystems.SwerveSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +21,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private SwerveSubsystem swerveSubs; 
+  private Command resetNavxCmd; 
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,6 +33,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    resetNavxCmd = m_robotContainer.getResetNavx();
   }
 
   /**
@@ -77,6 +84,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    resetNavxCmd.schedule();
+    // new InstantCommand(() -> swerveSubs.resetNavx(), swerveSubs).schedule();
   }
 
   /** This function is called periodically during operator control. */

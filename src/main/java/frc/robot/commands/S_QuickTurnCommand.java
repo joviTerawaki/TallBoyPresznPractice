@@ -2,9 +2,11 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class S_QuickTurnCommand extends CommandBase {
@@ -12,6 +14,7 @@ public class S_QuickTurnCommand extends CommandBase {
   /* * * DECLARATION * * */
   SwerveSubsystem swerveSubs; 
   double desiredAngle; 
+  PIDController anglePID; 
 
   DoubleSupplier xSupp, ySupp, zSupp; 
 
@@ -22,6 +25,8 @@ public class S_QuickTurnCommand extends CommandBase {
     this.xSupp = xSupp; 
     this.ySupp = ySupp; 
     this.zSupp = zSupp; 
+
+    anglePID = new PIDController(SwerveConstants.KP_ANGLE, SwerveConstants.KI_ANGLE, SwerveConstants.KD_ANGLE);
 
     addRequirements(swerveSubs);
   }
@@ -60,7 +65,8 @@ public class S_QuickTurnCommand extends CommandBase {
     swerveSubs.desiredAngle += zSpeed; 
     swerveSubs.desiredAngle = (swerveSubs.desiredAngle + 360) % 360; //makes the desired angle positive and b/w 0 - 360
     double angleToDesired = -wrap(swerveSubs.getRotation2d().getDegrees(), swerveSubs.desiredAngle); 
-    double rotationSpeed = angleToDesired / 90; //idk why they divide by 90??? 
+    double rotationSpeed = anglePID.calculate(swerveSubs.desiredAngle, swerveSubs.getRotation2d().getDegrees());
+    // double rotationSpeed = angleToDesired / 90; // makeshift PID that doesnt work 
     // apply range -1 to 1
     if (rotationSpeed > 1) rotationSpeed = 0.3;
     if (rotationSpeed < -1) rotationSpeed = -0.3;

@@ -61,8 +61,8 @@ public class SwerveModule {
         absoluteEncoder = rotationMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
         //reset all motor configuration (as suggested from raid zero) (optional but safe)
-        driveMotor.restoreFactoryDefaults();
-        rotationMotor.restoreFactoryDefaults();
+        // driveMotor.restoreFactoryDefaults();
+        // rotationMotor.restoreFactoryDefaults();
 
         /* * * DRIVE * * */
         //configure driving motor 

@@ -27,6 +27,8 @@ public class SwerveSubsystem extends SubsystemBase {
   //desired angle 
   public double desiredAngle; 
 
+  private double resetCounts = 0; 
+
   public SwerveSubsystem() {
     //instantiation of SwerveModules 
     swerveModules = new SwerveModule[] {
@@ -117,6 +119,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void resetNavx() {
     navx.reset();
+    resetCounts++; 
   }
 
   public double getYaw360() {
@@ -263,6 +266,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // backRight.print();
     SmartDashboard.putNumber("NAVX", navx.getYaw());
     SmartDashboard.putNumber("desired ang", desiredAngle);
+    SmartDashboard.putNumber("RESET COUNTS", resetCounts);
     
 
   }
