@@ -61,6 +61,8 @@ public class S_QuickTurnCommand extends CommandBase {
     if (zSpeed != 0) { //if rotation js is being moved 
       swerveSubs.desiredAngle = swerveSubs.getRotation2d().getDegrees(); //used to be .getYaw360();
     }
+
+    swerveSubs.setDesiredAngle(desiredAngle);
    
     swerveSubs.desiredAngle += zSpeed; 
     swerveSubs.desiredAngle = (swerveSubs.desiredAngle + 360) % 360; //makes the desired angle positive and b/w 0 - 360
@@ -68,8 +70,8 @@ public class S_QuickTurnCommand extends CommandBase {
     double rotationSpeed = anglePID.calculate(swerveSubs.desiredAngle, swerveSubs.getRotation2d().getDegrees());
     // double rotationSpeed = angleToDesired / 90; // makeshift PID that doesnt work 
     // apply range -1 to 1
-    if (rotationSpeed > 1) rotationSpeed = 0.3;
-    if (rotationSpeed < -1) rotationSpeed = -0.3;
+    if (rotationSpeed > 1) rotationSpeed = 1;
+    if (rotationSpeed < -1) rotationSpeed = -1;
 
     swerveSubs.drive(xSpeed, ySpeed, rotationSpeed, true);
 

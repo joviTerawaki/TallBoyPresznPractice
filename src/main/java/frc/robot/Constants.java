@@ -117,9 +117,9 @@ public final class Constants {
     public static final double KI_TURNING = 0.000056;//0.00001;
     public static final double KD_TURNING = 0.00005;//0.00009;
 
-    public static final double KP_ANGLE = 0.0; 
-    public static final double KI_ANGLE = 0.0; 
-    public static final double KD_ANGLE = 0.0; 
+    public static final double KP_ANGLE = 0.011; 
+    public static final double KI_ANGLE = 0.000; 
+    public static final double KD_ANGLE = 0.0015; 
 
 
     //FIXME speeds 
