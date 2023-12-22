@@ -65,7 +65,7 @@ public final class Constants {
       public static final int DRIVE_PORT = 2;
       public static final int ROTATION_PORT = 6;
       public static final int ABSOLUTE_ENCODER_PORT = 10;
-      public static final double OFFSET = 1.219 + 0.1 + 0.023 + Math.toRadians(3.0); 
+      public static final double OFFSET = 0.324 + Math.PI; 
       public static final boolean DRIVE_INVERTED = false; 
       public static final boolean ROTATION_INVERTED = true; 
 
@@ -113,9 +113,9 @@ public final class Constants {
     // 8192 * steer gear ratio  => counts per wheel revolution
 
     /* * * PID VALUES * * */
-    public static final double KP_TURNING = 0.0033;
-    public static final double KI_TURNING = 0.000056;//0.00001;
-    public static final double KD_TURNING = 0.00005;//0.00009;
+    public static final double KP_TURNING = 0.003; //0.0033;
+    public static final double KI_TURNING = 0.0005; //0.000056;
+    public static final double KD_TURNING = 0.00004; //0.00005;
 
     public static final double KP_ANGLE = 0.011; 
     public static final double KI_ANGLE = 0.000; 

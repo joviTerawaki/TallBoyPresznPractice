@@ -26,7 +26,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     swerveSubs.setDefaultCommand(
-      new S_DriveCommand(swerveSubs, () -> xbox.getLeftY(), () -> -xbox.getLeftX(), () -> -xbox.getRightX(), true)
+      new S_DriveCommand(swerveSubs, () -> xbox.getLeftY() * 0.68, () -> -xbox.getLeftX() * 0.68, () -> -xbox.getRightX() * 1.0, true)
       );
     // Configure the trigger bindings
     configureBindings();
@@ -35,7 +35,7 @@ public class RobotContainer {
   //configure bindings 
   private void configureBindings() {
     new JoystickButton(xbox, 1).onTrue(new InstantCommand(() -> swerveSubs.resetNavx()));
-    new JoystickButton(xbox, 3).whileTrue(new S_QuickTurnCommand(swerveSubs, () -> xbox.getLeftY(), () -> -xbox.getLeftX(), () -> -xbox.getRightX(), 180));
+    new JoystickButton(xbox, 3).whileTrue(new S_QuickTurnCommand(swerveSubs, () -> xbox.getLeftY() * 0.68, () -> -xbox.getLeftX() * 0.68, () -> -xbox.getRightX() * 0.68, 180));
     // new JoystickButton(xbox, 3).(new InstantCommand(() -> swerveSubs.setDesiredAngle(swerveSubs.getRotation2d().getDegrees())));
   }
 
